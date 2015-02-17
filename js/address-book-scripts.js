@@ -1,22 +1,31 @@
-var capitalize = function(inputWord) {
-  var letters = inputWord.split("");
-  var firstLetter = letters.shift();
-  var cappedLetter = firstLetter.toUpperCase();
-  letters.unshift(cappedLetter);
-  var outputWord = letters.join("");
-  return outputWord;
-};
+// var capitalize = function(inputWord) {
+//   var letters = inputWord.split("");
+//   var firstLetter = letters.shift();
+//   var cappedLetter = firstLetter.toUpperCase();
+//   letters.unshift(cappedLetter);
+//   var outputWord = letters.join("");
+//   return outputWord;
+// };
 
 $(document).ready(function() {
   var allContacts = [];
 
   $("form#new-contact").submit(function(event) {
     event.preventDefault();
-
-    var inputtedFirstName = capitalize($("input#new-first-name").val());
-    var inputtedLastName = capitalize($("input#new-last-name").val());
-    var inputtedAddress = $("input#new-address").val();
-    var newContact = { firstName: inputtedFirstName, lastName: inputtedLastName, address: inputtedAddress };
+    //insert capitalize before input first and last name below
+    var inputtedFirstName = ($("input#new-first-name").val());
+    var inputtedLastName = ($("input#new-last-name").val());
+    var inputtedStreet = $("input#new-street").val();
+    var inputtedCity = $("input#new-city").val();
+    var inputtedState = $("input#new-state").val();
+    var newAddress = { street: inputtedStreet,
+                   city: inputtedCity,
+                   state: inputtedState,
+                   fullAddress: function() {
+                     return this.street + ", " + this.city + ", " + this.state;
+                   }
+                 };
+    var newContact = { firstName: inputtedFirstName, lastName: inputtedLastName, address: newAddress.fullAddress() };
     allContacts.push(newContact);
 
     $("ul#contacts").empty();
@@ -47,6 +56,8 @@ $(document).ready(function() {
     $("input#new-first-name").val("");
     $("input#new-last-name").val("");
     $("input#new-address").val("");
-
+    $("input#new-street").val("");
+    $("input#new-city").val("");
+    $("input#new-state").val("");
   });
 });
